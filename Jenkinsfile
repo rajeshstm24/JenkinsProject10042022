@@ -4,8 +4,6 @@ pipeline {
     stage('Dev-Build') {
       steps {
         git(url: 'https://github.com/rajeshstm24/WebApp.git', branch: 'master', poll: true)
-        bat 'mvn install'
-        bat 'StartApp.bat'
         script {
           try{
             bat "StopApp.bat"
@@ -14,17 +12,13 @@ pipeline {
           }
         }
 
+        bat 'mvn install'
+        bat 'set JENKINS_NODE_COOKIE=dontKillMe && start /min startApp.bat'
       }
     }
 
     stage('QA-Test') {
       parallel {
-        stage('QA-Test') {
-          steps {
-            echo 'parallel '
-          }
-        }
-
         stage('UI Automation') {
           steps {
             git(url: 'https://github.com/rajeshstm24/WebAppUiAutomation.git', branch: 'master', poll: true)

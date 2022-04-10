@@ -4,9 +4,16 @@ pipeline {
     stage('Dev-Build') {
       steps {
         git(url: 'https://github.com/rajeshstm24/WebApp.git', branch: 'master', poll: true)
-        bat 'StopApp.bat'
         bat 'mvn install'
         bat 'StartApp.bat'
+        script {
+          try{
+            bat "StopApp.bat"
+          }catch(Exception e){
+            echo "nothing running on 9002"
+          }
+        }
+
       }
     }
 

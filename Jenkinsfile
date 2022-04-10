@@ -22,6 +22,7 @@ pipeline {
         stage('UI Automation') {
           steps {
             git(url: 'https://github.com/rajeshstm24/WebAppUiAutomation.git', branch: 'master', poll: true)
+            sleep 10
             bat 'mvn test'
           }
         }
@@ -29,6 +30,7 @@ pipeline {
         stage('API Automation') {
           steps {
             git(url: 'https://github.com/rajeshstm24/WebAppApiAutomation.git', branch: 'master')
+            sleep 10
             bat 'mvn test'
           }
         }
